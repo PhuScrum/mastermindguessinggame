@@ -89,7 +89,7 @@ public class GuessRunner {
 		 * to get a target number for your oponent
 		 * should be a random number between [1000-9999]
 		 */
-		int target = 9995;
+		int target = getRandomTarget();
 		Result res = new Result();
 		System.out.println("Guess\tResponse\n");
 		while(res.getStrikes() < 4) {
