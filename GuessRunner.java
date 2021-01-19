@@ -1,3 +1,7 @@
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.Random;
+
 public class GuessRunner {
 
 	static Result processGuess(int target, int guess) {
@@ -43,13 +47,49 @@ public class GuessRunner {
 		return new Result(hits, strikes);
 	}
 
+	public static int getRandomTarget(){
+		/**
+		 * list of random targets
+		 */
+		ArrayList<Integer> randomTargets = new ArrayList<Integer>();
+		/**
+		 * adding some numbers that are considered to be tough to guess.
+		 */
+		randomTargets.add(7720);
+		randomTargets.add(9991);
+		randomTargets.add(1946);
+		randomTargets.add(7470);
+		randomTargets.add(3319);
+		randomTargets.add(3490);
+
+
+		/**
+		 * adding 5 random numbers into the list
+		 */
+		Random rand1 = new Random();
+		int randomNumber = rand1.nextInt(9999 - 1000) + 1000;
+		for(int i =0;i< 5; i++){
+			randomTargets.add(randomNumber);
+		}
+		/**
+		 * pick a random index from the random target list, and return as a guess number.
+		 */
+		Random rand = new Random();
+		int index = rand.nextInt(randomTargets.size());
+		Iterator<Integer> iter = randomTargets.iterator();
+		for (int i = 0; i < index; i++) {
+			iter.next();
+		}
+		return iter.next();
+	}
+
 	public static void main(String[] args) {
 		int guess_cnt = 0;
 		/* A dummy value, you need to code here
 		 * to get a target number for your oponent
 		 * should be a random number between [1000-9999]
 		 */
-		int target = 1234;
+		int target = 1111;
 		Result res = new Result();
 		System.out.println("Guess\tResponse\n");
 		while(res.getStrikes() < 4) {

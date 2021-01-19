@@ -1,13 +1,19 @@
 import java.util.*;
 
 
-public class
-Guess {
+public class Guess {
+	/**
+	 * pre-defined variables
+	 */
 	static HashSet<String> possibleAnswers = new HashSet<>(); // create a list of strings, 'possibleAnswers'
 	static Result result = new Result(); // create new result
 	static String guess; // create a string call move, which represent a step generating a guess
 
-	// create a list of strings, 'GetAllPossibleAnswers',
+
+	/**
+	 * create a list of strings, 'GetAllPossibleAnswers'
+	 * @return
+	 */
 	private static HashSet<String> GetAllPossibleAnswers() {
 		for (int i = 1000; i <= 9999; i++) { // add numbers of int type from 1000 to 9999 to the list
 			possibleAnswers.add(String.valueOf(i)); // change int type to string type
@@ -15,8 +21,13 @@ Guess {
 		return possibleAnswers; // return numbers of string type
 	}
 
-    // function to eliminate elements in possibleAnswers by comparing guess with result
-	private static void eliminateGuess(String guess, Result result) { // take guess and result as parameters
+
+	/**
+	 * function to eliminate elements in possibleAnswers by comparing guess with result
+	 * @param guess: e.g 9431 a guess number.
+	 * @param result: (number of strikes, number of hits)
+	 */
+	private static void eliminatePossibilities(String guess, Result result) { // take guess and result as parameters
 		List<String> temp = new ArrayList<>(possibleAnswers); // create a temporary string type list, then assign it to 'possibleAnswers'
 		
         for (String s : temp) {// loop through each element in string type list of possible answers
@@ -28,10 +39,16 @@ Guess {
 		}
 	}
 
-    //function to compare 2 numbers as string type, return hits and strikes
-	public static Result ResultToGuess(String element, String guess) { // take element and guess as parameters
-		char[] des = (guess).toCharArray(); // des as guess
-		char[] src = (element).toCharArray(); // src as element
+
+	/**
+	 * function to compare 2 numbers as string type, return hits and strikes
+	 * @param target:
+	 * @param guess
+	 * @return (number of hits, number of strikes)
+	 */
+	public static Result ResultToGuess(String target, String guess) { // take element and guess as parameters
+		char[] des = (target).toCharArray(); // des as target
+		char[] src = (guess).toCharArray(); // src as guess
 		int hits=0;
 		int strikes=0;
 
@@ -62,13 +79,11 @@ Guess {
 		return result; // return result(hits, strikes)
 	}
 
-    // function to get a random number in range from min to max
-	private static int rand(int max, int min){
-		Random number = new Random(); // create random number
-		int range = max - min + 1;
-		return number.nextInt(range) + min; // return random number
-	}
-
+	/**
+	 *
+	 * @param set of possible answers
+	 * @return
+	 */
 	private static String getRandomFromSet(HashSet<String> set){
 		Random rand = new Random();
 		int index = rand.nextInt(set.size());
@@ -78,7 +93,13 @@ Guess {
 		}
 		return iter.next();
 	}
-    // function to create a reasonable guess
+
+	/**
+	 * main strategy to make guess after receiving responses of (hits, strikes)
+	 * @param hits
+	 * @param strikes
+	 * @return
+	 */
 	public static int make_guess(int hits, int strikes) {
 
         // first guess
@@ -87,11 +108,13 @@ Guess {
 			guess = getRandomFromSet(possibleAnswers); // generate random numbers of string type in 'possibleAnswers' list
 			return Integer.parseInt(guess);  // return random numbers
 		}
-
+		/**
+		 * Guesses after first guess.
+		 * eliminate other possibilities and randomly pick a number from the pool of possible answers.
+		 */
 		Result result = new Result(hits, strikes); // get result from process guess
-		eliminateGuess(guess, result); // call function eliminateGuess
+		eliminatePossibilities(guess, result); // call function eliminateGuess
 
-		// After first guess
 		guess = getRandomFromSet(possibleAnswers);  // generate random  numbers of string type in 'possibleAnswers' list
 		return Integer.parseInt(guess); // return random numbers
 	}
