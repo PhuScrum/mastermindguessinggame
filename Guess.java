@@ -1,6 +1,5 @@
 import java.util.*;
 
-
 public class Guess {
 	/**
 	 * pre-defined variables
