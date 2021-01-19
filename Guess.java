@@ -11,14 +11,14 @@ public class Guess {
 
 
 	/**
-	 * create a list of strings, 'GetAllPossibleAnswers'
+	 * initialize a pool of possible answers range from 1000-9999.
 	 * @return
 	 */
 	private static HashSet<String> GetAllPossibleAnswers() {
-		for (int i = 1000; i <= 9999; i++) { // add numbers of int type from 1000 to 9999 to the list
+		for (int i = 1000; i <= 9999; i++) {
 			possibleAnswers.add(String.valueOf(i)); // change int type to string type
 		}
-		return possibleAnswers; // return numbers of string type
+		return possibleAnswers;
 	}
 
 
@@ -86,6 +86,7 @@ public class Guess {
 	 */
 	private static String getRandomFromSet(HashSet<String> set){
 		Random rand = new Random();
+		System.out.println(set.size());
 		int index = rand.nextInt(set.size());
 		Iterator<String> iter = set.iterator();
 		for (int i = 0; i < index; i++) {
@@ -102,20 +103,26 @@ public class Guess {
 	 */
 	public static int make_guess(int hits, int strikes) {
 
-        // first guess
+		/**
+		 * first guess is to get random numbers from 1000-9999 in the pool of PossibleAnswers
+		 */
 		if (guess == null) {
 			possibleAnswers = GetAllPossibleAnswers();
 			guess = getRandomFromSet(possibleAnswers); // generate random numbers of string type in 'possibleAnswers' list
-			return Integer.parseInt(guess);  // return random numbers
+			return Integer.parseInt(guess);  // return first guess as the random number from 1000-9999
 		}
 		/**
-		 * Guesses after first guess.
-		 * eliminate other possibilities and randomly pick a number from the pool of possible answers.
+		 * Following Guesses after the first guess. like guess 2, guess 3, guess 4, etc.
+		 * eliminate other possibilities, based on responses of hits & strikes of the previous guess.
+		 * and randomly pick a number from the pool of possible answers.
 		 */
-		Result result = new Result(hits, strikes); // get result from process guess
-		eliminatePossibilities(guess, result); // call function eliminateGuess
+		Result result = new Result(hits, strikes);
+		eliminatePossibilities(guess, result);
 
-		guess = getRandomFromSet(possibleAnswers);  // generate random  numbers of string type in 'possibleAnswers' list
-		return Integer.parseInt(guess); // return random numbers
+		/**
+		 * new guess after eliminate the possibilities.
+		 */
+		guess = getRandomFromSet(possibleAnswers);
+		return Integer.parseInt(guess); // return guess
 	}
 }

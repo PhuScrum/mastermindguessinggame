@@ -80,7 +80,7 @@ public class GuessRunner {
 		for (int i = 0; i < index; i++) {
 			iter.next();
 		}
-		return iter.next();
+		return randomNumber;
 	}
 
 	public static void main(String[] args) {
@@ -89,7 +89,7 @@ public class GuessRunner {
 		 * to get a target number for your oponent
 		 * should be a random number between [1000-9999]
 		 */
-		int target = getRandomTarget();
+		int target = 9995;
 		Result res = new Result();
 		System.out.println("Guess\tResponse\n");
 		while(res.getStrikes() < 4) {
